@@ -19,11 +19,11 @@ namespace Player
         [SerializeField]private CharacterJoint rightHandJoint;
         [SerializeField]private CharacterJoint leftHandJoint;
         [SerializeField]private ClimberPlayerData playerData;
+        [SerializeField] private RigidBodySpringJointMover rigidBodyMover;
         PlayerData IPlayer.PlayerData => playerData;
 
         private Vector3 _currentTargetPos;
         private bool _isPlayerKinematic = true;
-        private SpringJoint _currentSpringJoint;
         private ClimbTarget _previousTarget;
         private ClimbTarget _currentTarget;
 
@@ -70,20 +70,17 @@ namespace Player
             if (isHangingWithLeftHand && isTargetLeftSide)
             {
                 // move right hand to the current item.
-                yield return MoveRigidBodyToTarget(leftHand, _previousTarget.GetLeftMostPosition,
+                yield return rigidBodyMover.MoveRigidBodyToTarget(leftHand, _previousTarget.GetLeftMostPosition,
                     playerData.movementTimeInSameItem);
-                Destroy(_currentSpringJoint.gameObject);
-                yield return MoveRigidBodyToTarget(rightHand, _previousTarget.GetRightMostPosition,
+                yield return rigidBodyMover.MoveRigidBodyToTarget(rightHand, _previousTarget.GetRightMostPosition,
                     playerData.movementTimeInSameItem);
-                Destroy(_currentSpringJoint.gameObject);
 
                 // move left hand to the target item.
 
                 InteractionBody = leftHand;
                 InteractionJoint = leftHandJoint;
-                yield return MoveRigidBodyToTarget(InteractionBody, _currentTargetPos, playerData.movementTime);
+                yield return rigidBodyMover.MoveRigidBodyToTarget(InteractionBody, _currentTargetPos, playerData.movementTime);
                 OnPlayerClimbed?.Invoke(this);
-                Destroy(_currentSpringJoint.gameObject);
             }
 
             if (!isHangingWithLeftHand && isTargetLeftSide)
@@ -91,10 +88,9 @@ namespace Player
                 // move left hand to the target item.
                 InteractionBody = leftHand;
                 InteractionJoint = leftHandJoint;
-                yield return MoveRigidBodyToTarget(InteractionBody, _currentTargetPos, playerData.movementTime);
+                yield return rigidBodyMover.MoveRigidBodyToTarget(InteractionBody, _currentTargetPos, playerData.movementTime);
                 print("coroutine finished");
                 OnPlayerClimbed?.Invoke(this);
-                Destroy(_currentSpringJoint.gameObject);
             }
 
             if (isHangingWithLeftHand && !isTargetLeftSide)
@@ -102,10 +98,9 @@ namespace Player
                 //move right hand to the target item.
                 InteractionBody = rightHand;
                 InteractionJoint = rightHandJoint;
-                yield return MoveRigidBodyToTarget(InteractionBody, _currentTargetPos, playerData.movementTime);
+                yield return rigidBodyMover.MoveRigidBodyToTarget(InteractionBody, _currentTargetPos, playerData.movementTime);
                 print("coroutine finished");
                 OnPlayerClimbed?.Invoke(this);
-                Destroy(_currentSpringJoint.gameObject);
             }
 
             if (!isHangingWithLeftHand && !isTargetLeftSide)
@@ -117,40 +112,6 @@ namespace Player
             _previousTarget = _currentTarget;
         }
 
-        //Don't use speed, change it to the time.
-        private IEnumerator MoveRigidBodyToTarget(Rigidbody body, Vector3 target,float movementTime)
-        {
-            var waitForFixUpdate = new WaitForFixedUpdate();
-
-            var go = new GameObject("Spring Joint Target")
-            {
-                transform =
-                {
-                    position = body.transform.position
-                }
-            };
-            var springJoint = go.AddComponent<SpringJoint>();
-            _currentSpringJoint = springJoint;
-            springJoint.connectedBody = body;
-            springJoint.spring = 1000;
-            springJoint.damper = 1000;
-            springJoint.anchor = Vector3.zero;
-            
-            go.GetComponent<Rigidbody>().isKinematic = true;
-            
-            var elapsedTime = 0f;
-            var pos = springJoint.transform.position;
-            while (elapsedTime < movementTime)
-            {
-                var fixedDeltaTime = Time.fixedDeltaTime;
-                springJoint.transform.position = Vector3.Lerp(pos, target, elapsedTime/movementTime);
-                elapsedTime += fixedDeltaTime;
-                yield return waitForFixUpdate;
-            }
-
-            //body.transform.position = target;
-        }
-        
         private (Rigidbody, CharacterJoint) GetCurrentHangItems()
         {
             return (InteractionBody, InteractionJoint);
@@ -173,7 +134,7 @@ namespace Player
 
         private void OnDrawGizmos()
         {
-            if(_currentTargetPos == null) return;
+            if(_currentTargetPos.IsApproximately(Vector3.zero)) return;
             Gizmos.DrawSphere(_currentTargetPos,.5f);
         }
     }

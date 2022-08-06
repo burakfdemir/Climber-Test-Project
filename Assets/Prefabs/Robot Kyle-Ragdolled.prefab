@@ -1356,6 +1356,7 @@ MonoBehaviour:
   rightHandJoint: {fileID: 7341871737953614222}
   leftHandJoint: {fileID: 6094916095488257249}
   playerData: {fileID: 11400000, guid: c0888e3359652874ab94e361d158da51, type: 2}
+  rigidBodyMover: {fileID: 0}
 --- !u!1 &4630108453995241950
 GameObject:
   m_ObjectHideFlags: 0
