@@ -93,8 +93,7 @@ namespace DevLocker.PhysicsUtils
 
 			StartCoroutine(DragObject(hit.distance));
 		}
-
-
+		
 		private IEnumerator DragObject(float distance) {
 			var oldDrag = m_SpringJoint.connectedBody.drag;
 			var oldAngularDrag = m_SpringJoint.connectedBody.angularDrag;

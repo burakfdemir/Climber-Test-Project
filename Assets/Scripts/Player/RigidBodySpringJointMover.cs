@@ -24,11 +24,11 @@ namespace Player
             _rigidbody = gameObject.GetComponent<Rigidbody>();
             _rigidbody.isKinematic = true;
         }
-        
-        public IEnumerator MoveRigidBodyToTarget(Rigidbody body, Vector3 target,float movementTime)
+
+        public IEnumerator MoveRigidBodyToTarget(Rigidbody body, Vector3 target, float movementTime)
         {
             var waitForFixUpdate = new WaitForFixedUpdate();
-            
+
             var elapsedTime = 0f;
             _springJoint.connectedBody = body;
             var springJointTransform = _springJoint.transform;
@@ -38,12 +38,12 @@ namespace Player
             while (elapsedTime < movementTime)
             {
                 var fixedDeltaTime = Time.fixedDeltaTime;
-                var nextPos = Vector3.Lerp(pos, target, elapsedTime/movementTime);
+                var nextPos = Vector3.Slerp(pos, target, elapsedTime / movementTime);
                 _rigidbody.MovePosition(nextPos);
                 elapsedTime += fixedDeltaTime;
                 yield return waitForFixUpdate;
             }
-
+            
             _springJoint.connectedBody = null;
         }
     }

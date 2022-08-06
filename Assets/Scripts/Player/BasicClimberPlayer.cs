@@ -14,11 +14,11 @@ namespace Player
         public CharacterJoint InteractionJoint { get; private set; }
         public Transform PlayerTransform => transform;
 
-        [SerializeField]private Rigidbody rightHand;
-        [SerializeField]private Rigidbody leftHand;
-        [SerializeField]private CharacterJoint rightHandJoint;
-        [SerializeField]private CharacterJoint leftHandJoint;
-        [SerializeField]private ClimberPlayerData playerData;
+        [SerializeField] private Rigidbody rightHand;
+        [SerializeField] private Rigidbody leftHand;
+        [SerializeField] private CharacterJoint rightHandJoint;
+        [SerializeField] private CharacterJoint leftHandJoint;
+        [SerializeField] private ClimberPlayerData playerData;
         [SerializeField] private RigidBodySpringJointMover rigidBodyMover;
         PlayerData IPlayer.PlayerData => playerData;
 
@@ -26,6 +26,9 @@ namespace Player
         private bool _isPlayerKinematic = true;
         private ClimbTarget _previousTarget;
         private ClimbTarget _currentTarget;
+
+        private Func<bool> True => () => true;
+        private Func<bool> False => () => false;
 
         private void Awake()
         {
@@ -35,7 +38,7 @@ namespace Player
 
         public void TryReachTarget(ClimbTarget target)
         {
-            if(_isPlayerKinematic)
+            if (_isPlayerKinematic)
             {
                 _isPlayerKinematic = false;
                 SetPlayerKinematic(_isPlayerKinematic);
@@ -48,6 +51,7 @@ namespace Player
                 InteractionBody = null;
                 InteractionJoint = null;
                 OnPlayerCantReached?.Invoke(this);
+                return;
             }
 
             ReachTarget(target);
@@ -63,53 +67,45 @@ namespace Player
 
         private IEnumerator ClimbPlayer()
         {
-            var currentHangItem = GetCurrentHangItems();
+            var currentHangItems = GetCurrentHangItems();
             var isTargetLeftSide = transform.position.x > _currentTargetPos.x;
-            var isHangingWithLeftHand = currentHangItem.Item1 == leftHand;
 
-            if (isHangingWithLeftHand && isTargetLeftSide)
+            if (currentHangItems.Item1 == null)
             {
-                // move right hand to the current item.
-                yield return rigidBodyMover.MoveRigidBodyToTarget(leftHand, _previousTarget.GetLeftMostPosition,
-                    playerData.movementTimeInSameItem);
-                yield return rigidBodyMover.MoveRigidBodyToTarget(rightHand, _previousTarget.GetRightMostPosition,
-                    playerData.movementTimeInSameItem);
-
-                // move left hand to the target item.
-
-                InteractionBody = leftHand;
-                InteractionJoint = leftHandJoint;
-                yield return rigidBodyMover.MoveRigidBodyToTarget(InteractionBody, _currentTargetPos, playerData.movementTime);
-                OnPlayerClimbed?.Invoke(this);
+                if (isTargetLeftSide)
+                    SetInteractionSideLeft();
+                else
+                    SetInteractionSideRight();
+                
             }
-
-            if (!isHangingWithLeftHand && isTargetLeftSide)
+            else
             {
-                // move left hand to the target item.
-                InteractionBody = leftHand;
-                InteractionJoint = leftHandJoint;
-                yield return rigidBodyMover.MoveRigidBodyToTarget(InteractionBody, _currentTargetPos, playerData.movementTime);
-                print("coroutine finished");
-                OnPlayerClimbed?.Invoke(this);
+                var isCurrentSideLeft = currentHangItems.Item1 == leftHand;
+                
+                if (isCurrentSideLeft)
+                    SetInteractionSideRight();
+                else
+                    SetInteractionSideLeft();
             }
-
-            if (isHangingWithLeftHand && !isTargetLeftSide)
-            {
-                //move right hand to the target item.
-                InteractionBody = rightHand;
-                InteractionJoint = rightHandJoint;
-                yield return rigidBodyMover.MoveRigidBodyToTarget(InteractionBody, _currentTargetPos, playerData.movementTime);
-                print("coroutine finished");
-                OnPlayerClimbed?.Invoke(this);
-            }
-
-            if (!isHangingWithLeftHand && !isTargetLeftSide)
-            {
-                //move left hand to current item.
-                //move right hand to the target item.
-            }
-
+            
+            yield return rigidBodyMover.MoveRigidBodyToTarget(InteractionBody, _currentTargetPos,
+                playerData.movementTime);
+            OnPlayerClimbed?.Invoke(this);
+            
             _previousTarget = _currentTarget;
+
+        }
+
+        private void SetInteractionSideLeft()
+        {
+            InteractionBody = leftHand;
+            InteractionJoint = leftHandJoint;
+        }
+
+        private void SetInteractionSideRight()
+        {
+            InteractionBody = rightHand;
+            InteractionJoint = rightHandJoint;
         }
 
         private (Rigidbody, CharacterJoint) GetCurrentHangItems()
@@ -122,7 +118,7 @@ namespace Player
         {
             SetPlayerKinematic(false);
         }
-        
+
         private void SetPlayerKinematic(bool status)
         {
             var childBodies = GetComponentsInChildren<Rigidbody>();
@@ -134,8 +130,8 @@ namespace Player
 
         private void OnDrawGizmos()
         {
-            if(_currentTargetPos.IsApproximately(Vector3.zero)) return;
-            Gizmos.DrawSphere(_currentTargetPos,.5f);
+            if (_currentTargetPos.IsApproximately(Vector3.zero)) return;
+            Gizmos.DrawSphere(_currentTargetPos, .5f);
         }
     }
 }
