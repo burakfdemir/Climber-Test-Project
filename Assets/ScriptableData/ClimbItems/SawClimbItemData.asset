@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: SawClimbItemData
   m_EditorClassIdentifier: 
   Name: Saw
-  timeInterval: 3
+  timeInterval: 10
   rotateSpeed: 360

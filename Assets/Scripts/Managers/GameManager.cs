@@ -10,12 +10,14 @@ namespace Managers
         private IClimberPlayer _player;
         private IClimbItem _currentClimbItem;
         private IClimbItem _previousClimbItem;
+        private bool _isPlayerClimbing;
 
         private void Start()
         {
             _player = GameObject.FindWithTag("Player").GetComponent<IClimberPlayer>();
             _player.OnPlayerClimbed += PlayerClimbedHandler;
             _player.OnPlayerCantReached += PlayerCantReachedHandler;
+            _player.OnFatalDamage += PlayerFatalDamageHandler;
             ClimbItemClickInfoProvider.OnItemClick += ClimbItemSelectedHandler;
         }
 
@@ -24,29 +26,39 @@ namespace Managers
             ClimbItemClickInfoProvider.OnItemClick -= ClimbItemSelectedHandler;
             _player.OnPlayerClimbed -= PlayerClimbedHandler;
             _player.OnPlayerCantReached -= PlayerCantReachedHandler;
+            _player.OnFatalDamage -= PlayerFatalDamageHandler;
         }
 
         private void ClimbItemSelectedHandler(IClimbItem climbItem)
         {
-            print("climb item selected.");
-            _player.TryReachTarget(climbItem.ClimbTargetTransforms);
+            if(_isPlayerClimbing) return;
+            _player.TryReachTarget(climbItem);
             _currentClimbItem = climbItem;
-            
+            _isPlayerClimbing = true;
         }
 
         private void PlayerClimbedHandler(IClimberPlayer player)
         {
-            print("player climbed");
-            TryReleasePlayer();
+            TryReleasePlayerOnClimbing();
             _currentClimbItem.InteractWithThePlayer(_player);
+            _isPlayerClimbing = false;
         }
 
         private void PlayerCantReachedHandler(IClimberPlayer player)
         {
             print("player cant reach");
+            _isPlayerClimbing = false;
         }
 
-        private void TryReleasePlayer()
+        private void PlayerFatalDamageHandler()
+        {
+            print("player fatal damage");
+            print("Game over!!!");
+            TryReleasePlayerOnClimbing();
+            ReleaseCurrentItem();
+        }
+
+        private void TryReleasePlayerOnClimbing()
         {
             if (_previousClimbItem != null && _previousClimbItem != _currentClimbItem)
             {
@@ -55,6 +67,11 @@ namespace Managers
             }
 
             _previousClimbItem ??= _currentClimbItem;
+        }
+
+        private void ReleaseCurrentItem()
+        {
+            _currentClimbItem.ReleasePlayer(_player);
         }
     }
 }

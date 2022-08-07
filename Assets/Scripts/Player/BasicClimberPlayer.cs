@@ -10,6 +10,7 @@ namespace Player
     {
         public event Action<IClimberPlayer> OnPlayerClimbed;
         public event Action<IClimberPlayer> OnPlayerCantReached;
+        public event Action OnFatalDamage;
         public Rigidbody InteractionBody { get; private set; }
         public CharacterJoint InteractionJoint { get; private set; }
         public Transform PlayerTransform => transform;
@@ -20,6 +21,7 @@ namespace Player
         [SerializeField] private CharacterJoint leftHandJoint;
         [SerializeField] private ClimberPlayerData playerData;
         [SerializeField] private RigidBodySpringJointMover rigidBodyMover;
+        [SerializeField] private Transform headTransform;
         PlayerData IPlayer.PlayerData => playerData;
 
         private Vector3 _currentTargetPos;
@@ -27,24 +29,22 @@ namespace Player
         private ClimbTarget _previousTarget;
         private ClimbTarget _currentTarget;
 
-        private Func<bool> True => () => true;
-        private Func<bool> False => () => false;
-
         private void Awake()
         {
             _isPlayerKinematic = true;
             SetPlayerKinematic(_isPlayerKinematic);
         }
 
-        public void TryReachTarget(ClimbTarget target)
+        public void TryReachTarget(IClimbItem climbItem)
         {
+            var target = climbItem.ClimbTargetTransforms; 
             if (_isPlayerKinematic)
             {
                 _isPlayerKinematic = false;
                 SetPlayerKinematic(_isPlayerKinematic);
             }
 
-            var playerPos = transform.position;
+            var playerPos = headTransform.position;
 
             if (Vector3.Distance(playerPos, target.GetNearestTargetPosition(playerPos)) > playerData.reachDistance)
             {
@@ -87,7 +87,6 @@ namespace Player
                 else
                     SetInteractionSideLeft();
             }
-            //ripsBody.AddForce(transform.forward * (-1 * hipsForce));
             yield return rigidBodyMover.MoveRigidBody(InteractionBody, _currentTargetPos,
                 playerData.movementTime,InteractionBody == rightHand);
             OnPlayerClimbed?.Invoke(this);
@@ -113,12 +112,6 @@ namespace Player
             return (InteractionBody, InteractionJoint);
         }
 
-        [ContextMenu("Set Player UnKinematic")]
-        public void SetPlayerUnKinematic()
-        {
-            SetPlayerKinematic(false);
-        }
-
         private void SetPlayerKinematic(bool status)
         {
             var childBodies = GetComponentsInChildren<Rigidbody>();
@@ -128,10 +121,15 @@ namespace Player
             }
         }
 
-        // private void OnDrawGizmos()
-        // {
-        //     if (_currentTargetPos.IsApproximately(Vector3.zero)) return;
-        //     Gizmos.DrawSphere(_currentTargetPos, .5f);
-        // }
+        public void FatalDamage()
+        {
+            OnFatalDamage?.Invoke();
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (_currentTargetPos.IsApproximately(Vector3.zero)) return;
+            Gizmos.DrawSphere(_currentTargetPos, .1f);
+        }
     }
 }

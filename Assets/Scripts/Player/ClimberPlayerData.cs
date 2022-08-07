@@ -6,6 +6,5 @@ namespace Player
     public class ClimberPlayerData : PlayerData
     {
         public float reachDistance;
-        public float movementTimeInSameItem;
     }
 }

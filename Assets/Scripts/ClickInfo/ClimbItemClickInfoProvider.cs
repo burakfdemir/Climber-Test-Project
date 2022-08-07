@@ -18,7 +18,6 @@ namespace ClickInfo
         public void OnPointerClick(PointerEventData eventData)
         {
             OnItemClick?.Invoke(Item);
-            print("on click");
         }
     }
 }

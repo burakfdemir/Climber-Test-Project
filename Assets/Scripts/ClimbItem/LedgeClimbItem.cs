@@ -6,7 +6,7 @@ namespace ClimbItem
     public class LedgeClimbItem : MonoBehaviour, IClimbItem
     {
         public ClimbTarget ClimbTargetTransforms => climbTarget;
-        ClimbItemData IClimbItem.ClimbItemData => climbItemData;
+        public ClimbItemData ClimbItemData => climbItemData;
 
         [SerializeField] private SpringJoint connectibleJoint;
         [SerializeField] private ClimbTarget climbTarget;

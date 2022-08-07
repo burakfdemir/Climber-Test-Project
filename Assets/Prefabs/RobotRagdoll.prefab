@@ -1358,6 +1358,7 @@ MonoBehaviour:
   leftHandJoint: {fileID: 6094916095488257249}
   playerData: {fileID: 11400000, guid: c0888e3359652874ab94e361d158da51, type: 2}
   rigidBodyMover: {fileID: 0}
+  headTransform: {fileID: 6441411573434892855}
 --- !u!114 &7215027597033467953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1374,10 +1375,9 @@ MonoBehaviour:
   head: {fileID: 6960287416312940864}
   rightArm: {fileID: 6171324573352506770}
   leftArm: {fileID: 9140976438879955783}
-  forwardHeadForce: 300
+  headForce: 300
   armForce: 300
   armForceStartAngle: 20
-  ribs: {fileID: 953045271469933492}
 --- !u!1 &4630108453995241950
 GameObject:
   m_ObjectHideFlags: 0

@@ -155,10 +155,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10e7a0eafebb48aba9abef8843da0b6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connectibleJoint: {fileID: 2076962840745119157}
+  countDownTimer: {fileID: 6065203002152306090}
   climbTarget: {fileID: 2998231775994160065}
   climbItemData: {fileID: 11400000, guid: 0d04ea14ef6756d4bb2fce76257f1864, type: 2}
-  countDownTimer: {fileID: 6065203002152306090}
+  connectibleJoint: {fileID: 2076962840745119157}
+  climbItemBody: {fileID: 259885970095659779}
 --- !u!114 &2670946644899155753
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,11 +6,5 @@ namespace Player
     public class PlayerData : ScriptableObject
     {
         public float movementTime;
-        //public float weight;
-
-        // public float GetWeightInNewton()
-        // {
-        //     return weight * 9.81f;
-        // }
     }
 }

@@ -8,6 +8,11 @@ namespace Player
     {
         private SpringJoint _springJoint;
         private Rigidbody _rigidbody;
+        [SerializeField] private float spring = 2000f;
+        [SerializeField] private float damper = 0f;
+        [SerializeField] private float maxDistance = 0f;
+        [SerializeField] private bool autoConfigureConnectedAnchor = false;
+        [SerializeField] private Vector3 anchor = Vector3.zero;
 
         private void Awake()
         {
@@ -17,11 +22,11 @@ namespace Player
         private void CreateSpringJoint()
         {
             _springJoint = gameObject.AddComponent<SpringJoint>();
-            _springJoint.spring = 2000;
-            _springJoint.damper = 0;
-            _springJoint.maxDistance = 0f;
-            _springJoint.autoConfigureConnectedAnchor = false;
-            _springJoint.anchor = Vector3.zero;
+            _springJoint.spring = spring;
+            _springJoint.damper = damper;
+            _springJoint.maxDistance = maxDistance;
+            _springJoint.autoConfigureConnectedAnchor = autoConfigureConnectedAnchor;
+            _springJoint.anchor = anchor;
             _rigidbody = gameObject.GetComponent<Rigidbody>();
             _rigidbody.isKinematic = true;
         }
@@ -31,21 +36,7 @@ namespace Player
             _springJoint.connectedBody = body;
             var springJointTransform = _springJoint.transform;
             springJointTransform.position = body.transform.position;
-
-            var pos = springJointTransform.position;
-
-            var distance = Vector3.Distance(target,pos);
-            var distanceDifference = distance * 0.5f;
             
-            var firstReachPoint = new Vector3(pos.x + (toRightWay ? distanceDifference: -distanceDifference),
-                pos.y + distanceDifference, pos.z - distanceDifference);
-            //
-            // yield return MoveRigidbodyLinear(body, firstReachPoint, movementTime * 0.33f);
-            //
-            // var secondReachPoint = new Vector3(firstReachPoint.x, target.y + distanceDifference, firstReachPoint.z);
-            // yield return MoveRigidbodyLinear(body, secondReachPoint, movementTime * 0.33f);
-            //
-            // yield return MoveRigidbodyLinear(body, target, movementTime * 0.5f);
             yield return MoveRigidbodyLinear(body, target, movementTime);
 
             _springJoint.connectedBody = null;

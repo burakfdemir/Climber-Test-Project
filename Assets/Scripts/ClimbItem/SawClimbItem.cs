@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using Player;
+using Tools;
 using UnityEngine;
 
 namespace ClimbItem
@@ -12,6 +13,7 @@ namespace ClimbItem
 
         [SerializeField] private InfiniteRotator infiniteRotator;
         [SerializeField] private InfiniteTwoPointMover mover;
+        [SerializeField] private PlayerCollisionDetectionBehaviour collisionDetectionBehaviour;
         public ClimbTarget ClimbTargetTransforms => climbTarget;
         ClimbItemData IClimbItem.ClimbItemData => climbItemData;
 
@@ -19,6 +21,12 @@ namespace ClimbItem
         {
             infiniteRotator.StartRotate(climbItemData.rotateSpeed);
             mover.Move(climbItemData.timeInterval);
+            collisionDetectionBehaviour.OnPlayerDetected += PlayerHitHandler;
+        }
+
+        private void OnDisable()
+        {
+            collisionDetectionBehaviour.OnPlayerDetected -= PlayerHitHandler;
         }
 
         public void InteractWithThePlayer(IClimberPlayer player)
@@ -29,6 +37,11 @@ namespace ClimbItem
         public void ReleasePlayer(IClimberPlayer player)
         {
             
+        }
+
+        private void PlayerHitHandler(IClimberPlayer player)
+        {
+            player.FatalDamage();
         }
     }
 }

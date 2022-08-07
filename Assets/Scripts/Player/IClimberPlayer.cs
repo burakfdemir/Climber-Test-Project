@@ -10,6 +10,8 @@ namespace Player
         event Action<IClimberPlayer> OnPlayerCantReached;
         Rigidbody InteractionBody { get;}
         CharacterJoint InteractionJoint { get; }
-        void TryReachTarget(ClimbTarget target);
+        void TryReachTarget(IClimbItem target);
+        event Action OnFatalDamage;
+        void FatalDamage();
     }
 }

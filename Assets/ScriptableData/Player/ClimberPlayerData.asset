@@ -12,6 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0e101acdad93ba4ba8d641c90c9f3ad, type: 3}
   m_Name: ClimberPlayerData
   m_EditorClassIdentifier: 
-  movementTime: 1
-  reachDistance: 20
-  movementTimeInSameItem: 0.5
+  movementTime: 2
+  reachDistance: 3
