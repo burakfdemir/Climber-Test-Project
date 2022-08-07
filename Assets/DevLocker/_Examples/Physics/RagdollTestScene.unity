@@ -177,7 +177,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &41129233
 GameObject:
@@ -208,7 +208,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &55140085
 GameObject:
@@ -324,7 +324,7 @@ Transform:
   m_Children:
   - {fileID: 2013168707}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &340436794
 GameObject:
@@ -603,7 +603,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &469186880
 GameObject:
@@ -701,8 +701,69 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &503392530
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4580688881941624274, guid: 522cd54634fdb2146be6b44ac51a4396, type: 3}
+      propertyPath: m_Name
+      value: Robot Kyle-Ragdolled
+      objectReference: {fileID: 0}
+    - target: {fileID: 4580688881941624274, guid: 522cd54634fdb2146be6b44ac51a4396, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403418675010920497, guid: 522cd54634fdb2146be6b44ac51a4396, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403418675010920497, guid: 522cd54634fdb2146be6b44ac51a4396, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.67118645
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403418675010920497, guid: 522cd54634fdb2146be6b44ac51a4396, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403418675010920497, guid: 522cd54634fdb2146be6b44ac51a4396, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.1596184
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403418675010920497, guid: 522cd54634fdb2146be6b44ac51a4396, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403418675010920497, guid: 522cd54634fdb2146be6b44ac51a4396, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403418675010920497, guid: 522cd54634fdb2146be6b44ac51a4396, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403418675010920497, guid: 522cd54634fdb2146be6b44ac51a4396, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403418675010920497, guid: 522cd54634fdb2146be6b44ac51a4396, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403418675010920497, guid: 522cd54634fdb2146be6b44ac51a4396, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403418675010920497, guid: 522cd54634fdb2146be6b44ac51a4396, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 522cd54634fdb2146be6b44ac51a4396, type: 3}
 --- !u!1 &510333519
 GameObject:
   m_ObjectHideFlags: 0
@@ -798,7 +859,7 @@ RectTransform:
   - {fileID: 1725399542}
   - {fileID: 340436795}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -979,7 +1040,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1725399541
 GameObject:
@@ -1290,7 +1351,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &7078805456271494580
 PrefabInstance:
@@ -1303,9 +1364,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Robot Kyle
       objectReference: {fileID: 0}
+    - target: {fileID: 1707337810667430020, guid: b6ecacd908494c148823d2c03a03863c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6682988041976558951, guid: b6ecacd908494c148823d2c03a03863c, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6682988041976558951, guid: b6ecacd908494c148823d2c03a03863c, type: 3}
       propertyPath: m_LocalPosition.x

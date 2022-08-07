@@ -87,9 +87,9 @@ namespace Player
                 else
                     SetInteractionSideLeft();
             }
-            
-            yield return rigidBodyMover.MoveRigidBodyToTarget(InteractionBody, _currentTargetPos,
-                playerData.movementTime);
+            //ripsBody.AddForce(transform.forward * (-1 * hipsForce));
+            yield return rigidBodyMover.MoveRigidBody(InteractionBody, _currentTargetPos,
+                playerData.movementTime,InteractionBody == rightHand);
             OnPlayerClimbed?.Invoke(this);
             
             _previousTarget = _currentTarget;
@@ -128,10 +128,10 @@ namespace Player
             }
         }
 
-        private void OnDrawGizmos()
-        {
-            if (_currentTargetPos.IsApproximately(Vector3.zero)) return;
-            Gizmos.DrawSphere(_currentTargetPos, .5f);
-        }
+        // private void OnDrawGizmos()
+        // {
+        //     if (_currentTargetPos.IsApproximately(Vector3.zero)) return;
+        //     Gizmos.DrawSphere(_currentTargetPos, .5f);
+        // }
     }
 }

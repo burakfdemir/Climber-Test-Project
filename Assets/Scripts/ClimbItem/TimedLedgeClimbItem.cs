@@ -1,23 +1,27 @@
-﻿using Player;
+﻿using System;
+using Player;
 using UnityEngine;
 
 namespace ClimbItem
 {
-    public class TimedLedgeClimbItem : MonoBehaviour, IClimbItem
+    public class TimedLedgeClimbItem : LedgeClimbItem
     {
-        private TimedClimbItemData _climbItemData;
+        [SerializeField] private CountDownTimer countDownTimer;
 
-        public ClimbTarget ClimbTargetTransforms { get; }
-        ClimbItemData IClimbItem.ClimbItemData => _climbItemData;
-
-        public void InteractWithThePlayer(IClimberPlayer player)
+        private void Start()
         {
-            
+            countDownTimer.onCountDownEnd += TimeEndHandler;
         }
 
-        public void ReleasePlayer(IClimberPlayer player)
+        private void OnDestroy()
         {
-            
+            countDownTimer.onCountDownEnd -= TimeEndHandler;
+        }
+        
+
+        private void TimeEndHandler()
+        {
+            ReleasePlayer(null);
         }
     }
 }

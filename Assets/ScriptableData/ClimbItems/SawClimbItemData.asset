@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0e101acdad93ba4ba8d641c90c9f3ad, type: 3}
-  m_Name: ClimberPlayerData
+  m_Script: {fileID: 11500000, guid: c73d99f6b4754383a4b136c837510d12, type: 3}
+  m_Name: SawClimbItemData
   m_EditorClassIdentifier: 
-  movementTime: 1
-  reachDistance: 20
-  movementTimeInSameItem: 0.5
+  Name: Saw
+  timeInterval: 3
+  rotateSpeed: 360
