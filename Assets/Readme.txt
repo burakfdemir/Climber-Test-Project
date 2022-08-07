@@ -1,0 +1,1 @@
+Hi, you can find scriptable objects under Assets/ScriptableData, you can tweak player and climbable item values there.
